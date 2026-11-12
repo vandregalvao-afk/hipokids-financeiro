@@ -1,0 +1,22 @@
+name: Despertador do banco
+
+# Acessa o banco da Hipokids uma vez por dia para o Supabase gratuito
+# nao pausar por inatividade. Tambem pode ser rodado a mao na aba Actions.
+on:
+  schedule:
+    - cron: "17 11 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  acordar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar o banco
+        run: |
+          curl --fail-with-body --silent --show-error --retry 3 --retry-delay 10 \
+            "https://ecnvmzxqglripgalgora.supabase.co/rest/v1/categorias?select=id&limit=1" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjbnZtenhxZ2xyaXBnYWxnb3JhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzNDYzNTUsImV4cCI6MjEwNzkyMjM1NX0.1XsxX4p5agznK2pNaLRoB2Wz7Xsj-fK6ktYxE8yUac8" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjbnZtenhxZ2xyaXBnYWxnb3JhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzNDYzNTUsImV4cCI6MjEwNzkyMjM1NX0.1XsxX4p5agznK2pNaLRoB2Wz7Xsj-fK6ktYxE8yUac8"
+          echo
